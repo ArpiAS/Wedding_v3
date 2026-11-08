@@ -1,0 +1,832 @@
+/* ========== Տառատեսակ ==========
+   Mhiora [Embedded] ֆայլը դիր fonts/ թղթապանակում
+   (Mhiora.woff2 կամ Mhiora.ttf) */
+@font-face {
+  font-family: "Mhiora";
+  src: local("Mhiora"), local("Mhiora [Embedded]"),
+       url("../fonts/Mhiora.woff2") format("woff2"),
+       url("../fonts/Mhiora.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* Montserrat arm [Embedded] ֆայլը դիր fonts/ թղթապանակում
+   (Montserrat-Armenian.woff2 կամ .ttf). Աշխատում է բոլոր կշիռների համար։ */
+@font-face {
+  font-family: "Montserrat Arm";
+  src: local("Montserrat arm"), local("Montserrat arm [Embedded]"),
+       url("../fonts/Montserrat-Armenian.woff2") format("woff2"),
+       url("../fonts/Montserrat-Armenian.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --wine: #842f31;
+  --ink: #2b2b2e;
+  --bg: #ffffff;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --sans: "Montserrat Arm", "Montserrat", "Noto Sans Armenian", "Segoe UI", Arial, sans-serif;
+  --heart: #b81f2f;
+  --fs: clamp(11.5px, calc(2.9 * var(--cqw)), 21px);  /* ընդհանուր տեքստի չափ՝ բոլոր բաժիններում նույնը (min · ճկուն · max) */
+  --cqw: 1cqw;   /* 1% կոնտեյների լայնությունից. հին զննարկիչներում (iPhone 7/8, Safari <16) js/cq.js-ը դնում է px */
+  --px: 0;   /* JS-ով՝ -1 … 1 */
+  --py: 0;
+}
+
+/* --fs-ը վերահայտարարվում է յուրաքանչյուր կոնտեյների վրա, որ cq.js-ի px արժեքը աշխատի նաև հին զննարկիչներում */
+.stage, .film__frame, .hello__stage, .route, .rsvp, .hb__frame, .v { --fs: clamp(11.5px, calc(2.9 * var(--cqw)), 21px); }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-width: 240px;               /* ամենափոքր էկրանը */
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+
+/* ========== HERO ========== */
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;              /* ամենամեծ լայնությունը */
+  height: 100vh;                  /* առաջին ամբողջական էկրան */
+  height: 100svh;
+  min-height: 420px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+
+/* ---------- Մետաքսե ֆոն ---------- */
+.silk {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: max(calc(min(100vw, 1023px) * .7475), 52vh);
+  height: max(calc(min(100vw, 1023px) * .7475), 52svh);
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+.silk__fallback,
+.silk__canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.silk__canvas { opacity: 0; transition: opacity .8s ease; }
+.silk.is-live .silk__canvas   { opacity: 1; }
+.silk.is-live .silk__fallback { opacity: 0; transition: opacity .8s ease .4s; }
+
+/* ամբողջ բաժինը լցնող տարբերակ */
+.silk--full {
+  height: 100%;
+  -webkit-mask-image: none;
+          mask-image: none;
+}
+.route .silk--full {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 90%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 90%, transparent 100%);
+}
+
+/* լույսի շողք, որ անցնում է կտորի վրայով */
+.silk__sheen {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.8) 50%, transparent 70%);
+  background-size: 250% 100%;
+  mix-blend-mode: soft-light;
+  animation: sheen 9s ease-in-out infinite;
+}
+@keyframes sheen {
+  0%   { background-position: 130% 0; }
+  100% { background-position: -30% 0; }
+}
+
+/* ---------- Բեմ (դիզայնի համամասնություն 1806×2560) ---------- */
+.stage {
+  position: relative;
+  /* բարձրությունը՝ ամբողջ էկրան. լայնությունը՝ դիզայնի համամասնությամբ,
+     բայց չի գերազանցում էկրանի լայնությունը */
+  height: 100%;
+  width: min(100%, calc((100vh - 0px) / 1.4175));
+  width: min(100%, calc(100svh / 1.4175));
+  min-width: 240px;
+  container-type: inline-size;
+}
+
+/* ---------- Անուններ ---------- */
+.names {
+  position: absolute;
+  left: 0; width: 100%;
+  top: 22%;
+  top: calc(calc(31.2 * var(--cqw)) + (100% - calc(141.75 * var(--cqw))) * .5);
+  aspect-ratio: 1806 / 790;
+  margin: 0;
+}
+.names__part {
+  position: absolute;
+  height: auto;
+  opacity: 0;
+}
+.names__part--1 { left: 11.3%; top: 0; width: 54.0%; animation: write 2.4s var(--ease) .4s forwards; }
+.names__part--2 { left: 34.0%; top: 47.6%; width: 6.26%; animation: pop 1s var(--ease) 2.2s forwards; }
+.names__part--3 { left: 44.2%; top: 53.7%; width: 40.6%; animation: write 2.4s var(--ease) 2.8s forwards; }
+
+@keyframes write {
+  0%   { opacity: 1; clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0);   -webkit-clip-path: inset(0 0 0 0); }
+}
+@keyframes pop {
+  0%   { opacity: 0; transform: translateY(10px) scale(.85); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ---------- Ձեռքեր (հեռվից մոտենում են) ---------- */
+.hands {
+  position: absolute;
+  left: 0;
+  bottom: calc(calc(14.95 * var(--cqw)) + (100% - calc(141.75 * var(--cqw))) * .16);
+  width: 100%;
+  aspect-ratio: 1806 / 820;
+}
+.hands__hand {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  will-change: transform;
+}
+.hands__hand--left {
+  animation: fromLeft 3.6s cubic-bezier(.16, .8, .28, 1) 1.1s forwards,
+             bobL 6s ease-in-out 4.8s infinite alternate;
+}
+.hands__hand--right {
+  animation: fromRight 3.6s cubic-bezier(.16, .8, .28, 1) 1.1s forwards,
+             bobR 6.6s ease-in-out 4.8s infinite alternate;
+}
+@keyframes fromLeft {
+  0%   { opacity: 0; transform: translateX(-62%); }
+  30%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fromRight {
+  0%   { opacity: 0; transform: translateX(62%); }
+  30%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes bobL { 0% { transform: translate(0, 0); }  100% { transform: translate(.6%, -1.1%); } }
+@keyframes bobR { 0% { transform: translate(0, 0); }  100% { transform: translate(-.6%, 1%); } }
+
+/* ---------- Ամսաթիվ ---------- */
+.date {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(7.2 * var(--cqw));
+  text-align: center;
+  font-family: "Mhiora", "Cormorant Garamond", "Didot", Georgia, serif;
+  font-weight: 400;
+  font-size: 4.6vw;               /* fallback */
+  font-size: calc(4.9 * var(--cqw));
+  line-height: 1.1;
+  letter-spacing: .04em;
+  color: var(--ink);
+  opacity: 0;
+  animation: fadeUp 1.4s var(--ease) 3.6s forwards;
+}
+@keyframes fadeUp {
+  0%   { opacity: 0; transform: translateY(14px); letter-spacing: .14em; }
+  100% { opacity: 1; transform: none;            letter-spacing: .04em; }
+}
+
+/* ========== ՎԻԴԵՈ ========== */
+.film {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;
+  margin: 0 auto;
+  background: var(--bg);
+}
+.film__frame {
+  position: relative;
+  /* նույն սյունը, ինչ շապիկինը */
+  width: min(100%, calc(100vh / 1.4175));
+  width: min(100%, calc(100svh / 1.4175));
+  min-width: 240px;
+  margin: 0 auto;
+  aspect-ratio: 1806 / 2560;        /* վիդեոյի համամասնությունը՝ փոխիր ըստ քո վիդեոյի */
+  overflow: hidden;
+  background: #efe2d6 url("../img/video-poster.jpg") center / cover no-repeat;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s var(--ease), transform 1.2s var(--ease);
+}
+.film__frame.is-in { opacity: 1; transform: none; }
+
+.film__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #efe2d6;
+}
+
+.film__frame { container-type: inline-size; }
+
+.film__sound {
+  position: absolute;
+  right: calc(4 * var(--cqw)); bottom: calc(4 * var(--cqw));
+  width: calc(11 * var(--cqw)); height: calc(11 * var(--cqw));
+  min-width: 36px; min-height: 36px;
+  border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.72);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--ink);
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+.film__sound[hidden] { display: none; }
+.film__sound { z-index: 5; }
+.film__sound:not(.is-on)::after {                      /* «սեղմիր՝ երգը միացնելու համար» ազդանշան */
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid rgba(132, 47, 49, .55);
+  animation: sndPulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes sndPulse { from { transform: scale(.85); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .film__sound::after { animation: none !important; opacity: 0; } }
+.film__sound svg { width: 55%; height: 55%; fill: currentColor; stroke: currentColor; stroke-width: 1.8; }
+.film__sound .ico-on { display: none; }
+.film__sound[aria-pressed="true"] .ico-on  { display: block; }
+.film__sound[aria-pressed="true"] .ico-off { display: none; }
+
+/* ========== ՍԻՐԵԼԻ՛ ՀՅՈՒՐ ========== */
+.hello {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+.hello__stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;                       /* նույն լայնությունը, ինչ մյուս բաժինների՝ չափերը համահունչ մնան */
+  min-width: 240px;
+  container-type: inline-size;
+}
+/* cqw-ը պետք է օգտագործվի կոնտեյների ՆԵՐՍՈՒՄ, ուստի padding-ը՝ ներքին փաթեթում */
+.hello__pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(16 * var(--cqw)) 0 calc(8 * var(--cqw));
+  font-family: var(--sans);
+}
+
+/* ճկուն դատարկ տարածքներ՝ դիզայնի համամասնությամբ */
+.sp { display: block; flex: 0 1 auto; }
+.sp--1 { flex: 8.5 1 calc(8.5 * var(--cqw));  min-height: calc(4 * var(--cqw)); }
+.sp--2 { flex: 15.7 1 calc(14.1 * var(--cqw)); min-height: calc(6 * var(--cqw)); }
+
+/* ---- վերնագիր ---- */
+.hello__head { width: 100%; }
+.hello__title {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 1806 / 330;
+  font-weight: 400;
+}
+.hello__dear {
+  position: absolute;
+  left: calc(9.4 * var(--cqw)); top: calc(1.6 * var(--cqw));
+  font-size: calc(9.2 * var(--cqw));
+  line-height: 1;
+  font-weight: 300;
+  color: #a9a9ab;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+.hello__guest {
+  position: absolute;
+  left: calc(27.6 * var(--cqw)); top: calc(5.2 * var(--cqw));
+  width: calc(23.3 * var(--cqw));
+  height: auto;
+}
+
+/* ---- տեքստ ---- */
+.hello__text {
+  margin: 0;
+  width: 100%;
+  padding: 0 calc(4 * var(--cqw));
+  text-align: center;
+  font-size: var(--fs);
+  line-height: 1.6;
+  font-weight: 400;
+  color: #3a3a3d;
+}
+.hello__text .ln { display: block; text-wrap: balance; }
+
+/* ---- ամսաթիվ / օրացույց ---- */
+.hello__date { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.hello__month {
+  font-size: calc(5.1 * var(--cqw));
+  font-size: calc(var(--fs) * 1.6);
+  font-weight: 500;
+  letter-spacing: .05em;
+  color: var(--wine);
+  line-height: 1;
+}
+.cal {
+  list-style: none;
+  margin: calc(6.2 * var(--cqw)) 0 0;
+  padding: 0;
+  width: calc(61 * var(--cqw));
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: calc(1.9 * var(--cqw));
+}
+.cal__d {
+  position: relative;
+  aspect-ratio: 126 / 138;
+  display: grid; place-items: center;
+  border: max(calc(.16 * var(--cqw)), 1px) solid #8c8c90;
+  border-radius: 24%;
+  font-size: min(calc(4.3 * var(--cqw)), 30px);
+  font-weight: 500;
+  color: #58585c;
+  line-height: 1;
+}
+.cal__d time { position: relative; z-index: 1; }
+.cal__d--on { border-color: transparent; transform: translateX(calc(-2.6 * var(--cqw))); }
+
+/* նկարվող սրտիկ */
+@property --draw { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.cal__heart {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 214%;
+  max-width: none;
+  height: auto;
+  transform: translate(-50.6%, -49%);
+  transform-origin: 50% 55%;
+  pointer-events: none;
+  -webkit-mask-image: conic-gradient(from 180deg at 50% 46%, #000 0, #000 calc(var(--draw) - 5deg), transparent var(--draw), transparent 360deg);
+          mask-image: conic-gradient(from 180deg at 50% 46%, #000 0, #000 calc(var(--draw) - 5deg), transparent var(--draw), transparent 360deg);
+  --draw: 0deg;
+}
+
+/* ---- երևալու անիմացիաներ (միանում են, երբ բաժինը երևում է) ---- */
+.js .hello__dear,
+.js .hello__guest,
+.js .hello__text .ln,
+.js .hello__month,
+.js .cal__d { opacity: 0; }
+
+.hello.is-in .hello__dear  { animation: fadeRight 1.2s var(--ease) .1s forwards; }
+.hello.is-in .hello__guest { animation: write 1.8s var(--ease) .7s forwards; }
+.hello.is-in .hello__text .ln { animation: fadeUp2 1s var(--ease) forwards; animation-delay: calc(1.2s + var(--i) * .16s); }
+.hello.is-in .hello__month { animation: fadeUp2 1s var(--ease) 3s forwards; }
+.hello.is-in .cal__d { animation: pop2 .7s var(--ease) forwards; animation-delay: calc(3.3s + var(--i) * .1s); }
+.hello.is-in .cal__heart { animation: draw 3.6s linear 4.2s infinite; }
+
+@keyframes fadeRight { from { opacity: 0; transform: translateX(calc(-4 * var(--cqw))); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp2   { from { opacity: 0; transform: translateY(calc(2.4 * var(--cqw))); } to { opacity: 1; transform: none; } }
+@keyframes pop2      { from { opacity: 0; scale: .7; } to { opacity: 1; scale: 1; } }
+@keyframes draw {
+  0%   { --draw: 0deg;   animation-timing-function: cubic-bezier(.45, .1, .35, 1); }
+  72%  { --draw: 370deg; }              /* 2.6 վրկ՝ նկարվում է */
+  100% { --draw: 370deg; }              /* 1 վրկ՝ մնում է ամբողջական, հետո նորից */
+}
+
+/* ========== ՈՒՂԻՆ / ՕՐՎԱ ԸՆԹԱՑՔԸ ========== */
+.route {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+  container-type: inline-size;
+  font-family: var(--sans);
+  /* ուղղահայաց ձգում հեռախոսների համար (1 = ճշգրիտ դիզայն) */
+  --k: 1;
+  --iz: 1;                                     /* պատկերակների մեծացում հեռախոսում */
+  --ex1: calc(190 * var(--u) * (var(--iz) - 1));
+  --ex2: calc(336 * var(--u) * (var(--iz) - 1));
+  --ex3: calc(198 * var(--u) * (var(--iz) - 1));
+  --u: calc(calc(100 * var(--cqw)) / 1806);                    /* դիզայնի 1px */
+  --t1: calc(36 * var(--u));                   /* 1-ին կանգառի վերև */
+  --t2: calc(var(--t1) + 799 * var(--k) * var(--u));
+  --t3: calc(var(--t1) + 1872 * var(--k) * var(--u));
+  --p1s: calc(var(--t1) + 312 * var(--u) + var(--ex1));     /* 1-ին կետագծի սկիզբ */
+  --p1e: calc(var(--t2) + 11 * var(--u));
+  --p2s: calc(var(--t2) + 453 * var(--u) + var(--ex2));
+  --p2e: calc(var(--t3) - 22 * var(--u));
+}
+@media (max-width: 760px)  { .route { --k: 1.15; --iz: 1.25; } }
+@media (max-width: 480px)  { .route { --k: 1.25; --iz: 1.55; } }
+
+.route__board {
+  position: relative;
+  z-index: 1;
+  height: calc(var(--t3) + 372 * var(--u) + var(--ex3) + 120 * var(--u));
+}
+
+/* ---- կետագծեր ---- */
+.trail {
+  position: absolute;
+  left: 0; width: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.trail--1 { top: var(--p1s); height: calc(var(--p1e) - var(--p1s)); }
+.trail--2 { top: var(--p2s); height: calc(var(--p2e) - var(--p2s)); }
+
+/* ---- կանգառներ ---- */
+.stop { position: absolute; left: 0; width: 100%; height: 0; }
+.stop--1 { top: var(--t1); }
+.stop--2 { top: var(--t2); }
+.stop--3 { top: var(--t3); }
+
+.stop__icon {
+  position: absolute;
+  top: calc(-6 * var(--u));
+  left: calc(889 * var(--u));
+  transform: translateX(-50%);
+  height: auto;
+  min-width: 46px;
+}
+.stop__icon--1 { width: calc(212 * var(--u) * var(--iz)); }
+.stop__icon--2 { width: calc(233 * var(--u) * var(--iz)); }
+.stop__icon--3 { width: calc(260 * var(--u) * var(--iz)); }
+
+.stop__txt {
+  position: absolute;
+  left: calc(881.5 * var(--u));
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(94 * var(--cqw));
+  text-align: center;
+  font-size: var(--fs);
+  line-height: 1.16;
+  color: #141414;
+}
+.stop__txt--1 { top: calc(190 * var(--u) + var(--ex1)); }
+.stop__txt--2 { top: calc(337 * var(--u) + var(--ex2)); }
+.stop__txt--3 { top: calc(228 * var(--u) + var(--ex3)); }
+.stop__name { display: block; }
+
+.stop__link {
+  display: block;
+  color: inherit;
+  text-decoration: underline dotted rgba(132, 47, 49, .55);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .25s ease, text-decoration-color .25s ease;
+}
+.stop__link:hover, .stop__link:focus-visible { color: var(--wine); text-decoration-color: var(--wine); }
+.stop__link:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; border-radius: 4px; }
+
+.stop__time {
+  display: block;
+  margin-top: calc(14 * var(--u));
+  padding-right: calc(4 * var(--u));
+  text-align: right;
+  color: var(--wine);
+  font-size: 1.12em;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+/* ---- ճանապարհի երկայնքով պատկերակներ ---- */
+.pi { position: absolute; height: auto; transform: translate(-50%, -50%); min-width: 26px; }
+.pi--tree  { left: calc(1003.5 * var(--u)); top: calc(var(--p1s) + .566 * (var(--p1e) - var(--p1s))); width: calc(91 * var(--u) * var(--iz)); min-width: 34px; }
+.pi--heart { left: calc(791.5 * var(--u));  top: calc(var(--p2s) + .237 * (var(--p2e) - var(--p2s))); width: calc(69 * var(--u) * var(--iz)); min-width: 26px; }
+.pi--car   { left: calc(929 * var(--u));    top: calc(var(--p2s) + .507 * (var(--p2e) - var(--p2s))); width: calc(114 * var(--u) * var(--iz)); min-width: 38px; }
+
+/* ---- երևալու / անհետանալու վիճակներ (սքրոլով՝ երկու ուղղությամբ) ---- */
+.js .route .rv {
+  opacity: 0;
+  scale: .82;
+  translate: 0 12px;
+  transition: opacity .7s var(--ease), scale .8s var(--ease), translate .8s var(--ease);
+}
+.js .route .rv.on { opacity: 1; scale: 1; translate: 0 0; }
+.js .route .stop.rv { scale: 1; }   /* կանգառը միայն մարում/բարձրանում է */
+.js .route .stop .stop__time { transition: opacity .6s ease .35s; opacity: 0; }
+.js .route .stop.on .stop__time { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .route .rv { opacity: 1; scale: 1; translate: none; transition: none; }
+  .js .route .stop .stop__time { opacity: 1; transition: none; }
+}
+
+/* ========== ՀԱՍՏԱՏՈՒՄ · LOVE · QR · ՄԱՏԱՆԻՆԵՐ ========== */
+.rsvp {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--bg);
+  container-type: inline-size;
+  --u: calc(calc(100 * var(--cqw)) / 1806);
+  --fu: var(--u);
+  --kg: 1;
+}
+.rsvp__in {
+  padding: calc(190 * var(--u)) 0 calc(10 * var(--u));
+  font-family: var(--sans);
+  color: #141414;
+  text-align: center;
+  font-size: var(--fs);
+}
+@media (max-width: 640px) {
+  .rsvp { --kg: 1.1; --fu: calc(calc(100 * var(--cqw)) / 1806 * 1.4); }
+}
+
+.rsvp__lead { margin: 0; line-height: 1.404; }
+.rsvp__lead .ln { display: block; text-wrap: balance; }
+
+/* ---- ընտրանքներ ---- */
+.rsvp__opts {
+  width: max-content; max-width: calc(94 * var(--cqw));
+  margin: calc(110 * var(--u) * var(--kg)) auto 0;
+  transform: translateX(calc(27 * var(--u)));
+  text-align: left;
+  display: flex; flex-direction: column;
+  gap: 0;
+}
+.opt {
+  display: flex; align-items: baseline; gap: .45em;
+  margin: 0; padding: .14em 0;
+  border: 0; background: none;
+  font: inherit; line-height: 1.3; color: inherit; text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt__b { white-space: nowrap; flex: none; }
+.opt__ck {
+  display: inline-block; width: .42em; height: .8em; vertical-align: -.1em;
+  margin: 0 .02em;
+  fill: none; stroke: var(--wine); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.opt__ck path { stroke-dasharray: 30; stroke-dashoffset: 30; transition: stroke-dashoffset .55s var(--ease); }
+.opt[aria-checked="true"] .opt__ck path { stroke-dashoffset: 0; }
+.opt[aria-checked="true"] .opt__t { color: var(--wine); }
+.opt__t { transition: color .3s ease; }
+.opt:hover .opt__t { color: var(--wine); }
+.opt:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; border-radius: 4px; }
+
+.rsvp__wait {
+  margin: calc(93 * var(--u) * var(--kg)) 0 0;
+  letter-spacing: .05em; line-height: 1.3;
+}
+.rsvp__rule {
+  width: calc(1081 * var(--u)); max-width: calc(92 * var(--cqw));
+  height: 0; margin: calc(139 * var(--u) * var(--kg)) auto 0;
+  border: 0; border-top: max(1px, calc(2 * var(--u))) solid #cfcfd2;
+  transform-origin: 50% 50%;
+}
+
+/* ---- love + QR + camera ---- */
+.memo-wrap { margin-top: calc(140 * var(--u) * var(--kg)); }
+.memo { position: relative; width: 100%; height: calc(765 * var(--u)); }
+.memo__tools { display: contents; }
+
+.love { position: absolute; left: calc(509 * var(--u)); top: calc(-6 * var(--u)); width: calc(860 * var(--u)); margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.love__img, .love__cv { display: block; width: 100%; height: auto; }
+.love__cv { position: absolute; inset: 0; }
+.js .love__img, .js .love__cv { opacity: 0; }
+.js .love.is-still .love__img { opacity: 1; }
+.js .love.is-writing .love__cv { opacity: 1; }
+
+.camera { position: absolute; left: calc(540 * var(--u)); top: calc(449 * var(--u)); width: calc(290 * var(--u)); height: auto; }
+.qr { position: absolute; left: calc(878 * var(--u)); top: calc(296 * var(--u)); width: calc(467 * var(--u)); display: block; -webkit-tap-highlight-color: transparent; }
+.qr img { display: block; width: 100%; height: auto; }
+.qr:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; }
+
+.rsvp__memo { margin: calc(72 * var(--u) * var(--kg)) 0 0; }
+.rsvp__caps { display: block; font-size: calc(var(--fs) * .74); letter-spacing: .07em; line-height: 1.45; }
+.rsvp__sub  { display: block; font-size: calc(var(--fs) * .72); line-height: 1.5; margin-top: calc(6 * var(--u)); text-wrap: balance; padding: 0 calc(3 * var(--cqw)); }
+
+/* ---- ներքևի զարդ ---- */
+.foot { position: relative; margin-top: calc(118 * var(--u) * var(--kg)); height: calc(260 * var(--u)); }
+.foot__row { position: absolute; inset: 0; }
+.foot__line { position: absolute; top: calc(122 * var(--u)); width: calc(365 * var(--u)); height: max(1.5px, calc(3 * var(--u))); background: #111; }
+.foot__line--l { left: calc(197 * var(--u)); transform-origin: 0 50%; }
+.foot__line--r { left: calc(861 * var(--u)); transform-origin: 100% 50%; }
+.foot__ring { position: absolute; top: calc(30 * var(--u)); height: auto; }
+.foot__ring--l { left: calc(540 * var(--u)); width: calc(207 * var(--u)); }
+.foot__ring--r { left: calc(746 * var(--u)); width: calc(140 * var(--u)); }
+.foot__names { position: absolute; left: calc(1310 * var(--u)); top: calc(46 * var(--u)); width: calc(368 * var(--u)); height: auto; }
+
+/* ---- երևալու անիմացիաներ (խմբերով՝ .rg.is-in) ---- */
+.js .rg .rv5 {
+  opacity: 0; translate: 0 calc(26 * var(--u));
+  transition: opacity .9s var(--ease) var(--d, 0s), translate .9s var(--ease) var(--d, 0s);
+}
+.js .rg.is-in .rv5 { opacity: 1; translate: 0 0; }
+.js .rsvp__rule { scale: 0 1; transition: scale 1.3s var(--ease) 1.3s; }
+.js .rsvp__top.is-in .rsvp__rule { scale: 1 1; }
+
+/* մատանիները՝ երկու կողմից մոտենում են, գծերը աճում են արտաքին ծայրերից */
+.js .foot .foot__ring { opacity: 0; transition: translate 2s cubic-bezier(.16, .8, .28, 1) .2s, opacity .7s ease .2s; }
+.js .foot .foot__ring--l { translate: calc(-46 * var(--cqw)) 0; }
+.js .foot .foot__ring--r { translate: calc(46 * var(--cqw)) 0; }
+.js .foot .foot__line { scale: 0 1; transition: scale 2s cubic-bezier(.16, .8, .28, 1) .2s; }
+.js .foot.is-in .foot__ring { opacity: 1; translate: 0 0; }
+.js .foot.is-in .foot__line { scale: 1 1; }
+
+/* ---- հեռախոս (≤ 640px) ---- */
+@media (max-width: 640px) {
+  .memo { height: auto; display: flex; flex-direction: column; align-items: center; }
+  .love { position: relative; left: auto; top: auto; width: calc(76 * var(--cqw)); }
+  .memo__tools { display: flex; align-items: center; justify-content: center; gap: calc(6 * var(--cqw)); margin-top: calc(4 * var(--cqw)); width: 100%; }
+  .camera { position: static; width: calc(30 * var(--cqw)); }
+  .qr { position: static; width: max(calc(40 * var(--cqw)), 130px); max-width: calc(60 * var(--cqw)); }
+  .foot { height: auto; }
+  .foot__row { position: relative; inset: auto; width: calc(1029 * var(--fu)); height: calc(190 * var(--fu)); margin: 0 auto; }
+  .foot__line { top: calc(122 * var(--fu)); width: calc(365 * var(--fu)); }
+  .foot__line--l { left: 0; }
+  .foot__line--r { left: calc(664 * var(--fu)); }
+  .foot__ring { top: calc(30 * var(--fu)); }
+  .foot__ring--l { left: calc(343 * var(--fu)); width: calc(207 * var(--fu)); }
+  .foot__ring--r { left: calc(549 * var(--fu)); width: calc(140 * var(--fu)); }
+  .foot__names { position: static; display: block; width: calc(36 * var(--cqw)); margin: calc(4 * var(--cqw)) auto 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .rg .rv5 { opacity: 1; translate: none; transition: none; }
+  .js .rsvp__rule { scale: 1 1; transition: none; }
+  .js .foot .foot__ring { opacity: 1; translate: none; transition: none; }
+  .js .foot .foot__line { scale: 1 1; transition: none; }
+  .js .love__img { opacity: 1; }
+  .js .love__cv { display: none; }
+}
+
+/* ========== ՏԱՐԲԵՐԱԿ B · ԲԱՑՈՒՄ (աղավնի + վարագույր + վիդեո) ========== */
+.hb {
+  position: relative;
+  width: 100%;
+  max-width: 1023px;
+  height: 100vh;
+  height: 100svh;
+  min-height: 420px;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+.hb__frame {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  container-type: inline-size;
+  background: #efe2d6;
+  overflow: hidden;
+}
+@media (min-aspect-ratio: 4/5) { .hb__frame { width: calc(100vh * .78); width: calc(100svh * .78); min-width: 240px; } }
+
+.hb__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; display: block; background: #efe2d6; }
+.hb__shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(255,255,255,.97) 0, rgba(255,255,255,.9) 24%, rgba(255,255,255,.5) 40%, rgba(255,255,255,0) 58%);
+}
+
+/* Արկադի և Արփի + ամսաթիվ (վիդեոյի վրա) */
+.hb__names {
+  position: absolute; z-index: 2;
+  left: 50%;
+  top: auto;
+  bottom: max(11.5vh, calc(env(safe-area-inset-bottom) + 64px));
+  bottom: max(11.5svh, calc(env(safe-area-inset-bottom) + 64px));
+  transform: translateX(-50%);
+  width: min(calc(80 * var(--cqw)), 30vh);
+  width: min(calc(80 * var(--cqw)), 30svh);
+  aspect-ratio: 1806 / 790;
+  margin: 0;
+}
+.hb .names__part { animation: none; opacity: 0; }
+.hb.is-names .names__part--1 { animation: write 2.4s var(--ease) 0s forwards; }
+.hb.is-names .names__part--2 { animation: pop 1s var(--ease) 1.8s forwards; }
+.hb.is-names .names__part--3 { animation: write 2.4s var(--ease) 2.3s forwards; }
+
+.hb__date {
+  position: absolute; z-index: 2; left: 0; right: 0;
+  bottom: max(4.5vh, calc(env(safe-area-inset-bottom) + 14px));
+  bottom: max(4.5svh, calc(env(safe-area-inset-bottom) + 14px));
+  text-align: center;
+  font-family: "Mhiora", "Cormorant Garamond", "Didot", Georgia, serif;
+  font-size: clamp(20px, calc(6.2 * var(--cqw)), 34px);
+  letter-spacing: .04em; line-height: 1.1;
+  color: #2b2b2e;
+  text-shadow: 0 0 12px rgba(255, 255, 255, .85);
+  opacity: 0;
+}
+.hb.is-names .hb__date { animation: fadeUp 1.4s var(--ease) 3.9s forwards; }
+
+/* ---- վարագույր (canvas) + աղավնի ---- */
+.hb__stage { display: none; position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.js .hb__stage { display: block; }
+.hb__cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hb__dove { position: absolute; top: 34%; left: 0; width: 0; height: 0; will-change: transform; }
+.hb__dove-box { position: absolute; left: 0; top: 0; width: clamp(150px, calc(44 * var(--cqw)), 280px); transform: translate(-27%, -40%); }
+.hb__dove-svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 10px 12px rgba(30, 45, 70, .28)); }
+.hb__dove-in { animation: dvIn 1.4s cubic-bezier(.2, .7, .3, 1) both; }
+.hb__dove-bob { animation: dvBob 1.1s ease-in-out infinite alternate; }
+.hb__dove-exit { transition: transform 2.6s cubic-bezier(.5, 0, .9, .6), opacity 1.8s ease .5s; }
+.hb.is-exit .hb__dove-exit { transform: translate(calc(-70 * var(--cqw)), -34vh) rotate(8deg) scale(.6); opacity: 0; }
+@keyframes dvIn  { from { transform: translateX(70vw); } to { transform: translateX(0); } }
+@keyframes dvBob { from { transform: translateY(-7px) rotate(-1.4deg); } to { transform: translateY(8px) rotate(1.6deg); } }
+
+/* փայլիկներ աղավնու շուրջ */
+.hb__sparks { position: absolute; inset: -12% -6% -6% -6%; pointer-events: none; }
+.hb__spark {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--s); height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  background: radial-gradient(circle, #fff 0, rgba(255,255,255,.95) 28%, rgba(255,246,222,.0) 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, .85), 0 0 18px 4px rgba(255, 235, 190, .35);
+  opacity: 0;
+  animation: sparkle 1.9s ease-in-out infinite;
+  animation-delay: var(--dl);
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: translate(0, 0) scale(.3); }
+  45%      { opacity: 1; transform: translate(-4px, 5px) scale(1); }
+  80%      { opacity: .2; transform: translate(-9px, 12px) scale(.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb__stage { display: none !important; }
+  .hb .names__part { animation: none !important; opacity: 1; clip-path: none; }
+  .hb__date { animation: none !important; opacity: 1; }
+}
+
+/* ========== Ռեսպոնսիվ ========== */
+
+/* Պլանշետ / փոքր նոութբուք ≤ 1023px */
+
+
+/* Հեռախոս */
+@media (max-width: 600px) {
+  .date { letter-spacing: .03em; }
+}
+
+/* Շատ փոքր էկրաններ (240px-ից սկսած) */
+@media (max-width: 360px) {
+  .silk__sheen { animation-duration: 12s; }
+}
+
+/* Լայն էկրաններում կողքերը փափուկ մարում են */
+@media (min-width: 1024px) {
+  .hero, .hello, .route {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+
+/* Երբ էկրանը լայն է դիզայնից (պլանշետ, հորիզոնական), ձեռքերի եզրերը փափուկ մարում են */
+@media (min-aspect-ratio: 706/1000) {
+  .hands {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+}
+
+/* Ցածր էկրան (հորիզոնական հեռախոս) */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero { min-height: 0; }
+}
+
+/* Անիմացիաների նվազեցում՝ հասանելիության համար */
+@media (prefers-reduced-motion: reduce) {
+  .silk__sheen { animation: none; }
+  .names__part, .hands__hand, .date { animation: none; opacity: 1; clip-path: none; }
+  .film__frame { opacity: 1; transform: none; transition: none; }
+  .js .hello__dear, .js .hello__guest, .js .hello__text .ln, .js .hello__month, .js .cal__d { opacity: 1; animation: none !important; }
+  .cal__heart { animation: none !important; -webkit-mask-image: none; mask-image: none; }
+}
